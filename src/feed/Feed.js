@@ -23,18 +23,22 @@ const POSTS_TEST = [
 export function Feed() {
   return <div>
     <>
-      <button type="button" name="refresh">Refresh</button>
-      {POSTS_TEST.map(post => (
-        <Post title={post.title} content={post.content} />
-      ))}
+      <button type="button" className="ui button">Refresh</button>
+      <div className="ui relaxed divided list">
+        <div className="content">
+          {POSTS_TEST.map(post => (
+            <Post title={post.title} content={post.content} key={post.content} />
+          ))}
+        </div>
+      </div>
     </>
   </div>
 }
 
 function Post(props) {
   return <div>
-    <h2>{props.title}</h2>
-    <p>{props.content}</p>
+    <div className="header">{props.title}</div>
+    <div className="description">{props.content}</div>
   </div>
 }
 
