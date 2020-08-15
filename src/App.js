@@ -1,13 +1,17 @@
 import React from 'react';
 import Feed from './feed/Feed.js';
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Gauchadas</h1>
-      </header>
-      <h1>Feed</h1>
+    <div>
+      <div className="ui fixed inverted menu">
+        <div className="ui container">
+          <a href="#" className="header item">
+            Gauchadas
+          </a>
+        </div>
+      </div>
       <Feed />
     </div>
   );
