@@ -15,6 +15,7 @@ const Comments = ({ postID }) => {
   }, [postID]);
 
   return (
+    <div>{comments.map((c, index) => (<div key={index}> {c.content} </div>))}</div>
   );
 };
 
