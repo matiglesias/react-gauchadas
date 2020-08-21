@@ -13,7 +13,24 @@ const Post = ({ postID }) => {
 
     return () => backend.dispose();
   }, [postID]);
+
+  const postDate = () => {
+    if (post) {
+      const date = new Date(post.createdAt);
+      return date.toLocaleDateString();
+    }
+  };
+
   return (
+    <div className="ui stackable container">
+      <div className="row" id="post-header">
+        <h1 className="ui header">{post.title}</h1>
+        <div className="ui sub-header">{postDate()}</div>
+      </div>
+      <div className="row" id="post-content">
+        <p>{post.body}</p>
+      </div>
+    </div>
   );
 };
 
