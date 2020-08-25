@@ -21,6 +21,12 @@ const Post = ({ postID }) => {
     }
   };
 
+  const paragraphs = () => {
+    if (post.body) {
+      return post.body.split("\n").map((p, index) => (<p key={index}>{p}</p>))
+    }
+  }
+
   return (
     <div className="ui stackable container">
       <div className="row" id="post-header">
@@ -28,8 +34,8 @@ const Post = ({ postID }) => {
         <div className="ui sub-header">{postDate()}</div>
       </div>
       <div className="row" id="post-content">
-        <p>{post.body}</p>
-      </div>
+        {paragraphs()}
+    </div>
     </div>
   );
 };
