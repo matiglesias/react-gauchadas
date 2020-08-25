@@ -28,11 +28,12 @@ const Post = ({ postID }) => {
   }
 
   return (
-    <div className="ui stackable container">
-      <div className="row" id="post-header">
-        <h1 className="ui header">{post.title}</h1>
-        <div className="ui sub-header">{postDate()}</div>
-      </div>
+    <div className="ui main text container" style={{ "marginTop": '7em' }}>
+      <h1 className="ui dividing huge header">
+        <div className="ui sub header" style={{ "textAlign": 'right' }}>{postDate()}</div>
+        {post.title}
+      </h1>
+      <div className="ui hidden divider"></div>
       <div className="row" id="post-content">
         {paragraphs()}
     </div>

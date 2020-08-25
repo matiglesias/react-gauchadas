@@ -4,10 +4,10 @@ import Comments from './Comments';
 
 const PostView = ({ postID }) => {
   return (
-    <div>
+    <>
       <Post postID={postID} />
       <Comments postID={postID} />
-    </div>
+    </>
   );
 };
 
