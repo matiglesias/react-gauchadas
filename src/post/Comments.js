@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import Backend from '../services/backend';
+import React from 'react';
 import moment from 'moment';
+import { useRequest } from '../hooks/useRequest';
+import { GET_COMMENTS } from '../apis/backend';
 
 const Comments = ({ postID }) => {
-  const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    const backend = new Backend();
-    backend
-      .getComments(postID)
-      .then((result) => setComments(result.data || []))
-      .catch((err) => console.log(backend.isCancelled(err)));
-
-    return () => backend.dispose();
-  }, [postID]);
+  const comments = useRequest(GET_COMMENTS, { postID });
 
   const showComment = (c, index) => {
     return (

@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import Backend from '../services/backend';
+import React from 'react';
 import moment from 'moment'
+import { useRequest } from '../hooks/useRequest';
+import { GET_POST } from '../apis/backend';
 
 const Post = ({ postID }) => {
-  const [post, setPost] = useState([]);
-
-  useEffect(() => {
-    const backend = new Backend();
-    backend
-      .getPost(postID)
-      .then((result) => setPost(result.data || []))
-      .catch((err) => console.log(backend.isCancelled(err)));
-
-    return () => backend.dispose();
-  }, [postID]);
+  const post = useRequest(GET_POST, { postID });
 
   const paragraphs = () => {
     if (post.body) {
