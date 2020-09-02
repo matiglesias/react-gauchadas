@@ -6,7 +6,7 @@ const instance = axios.create({
   cancelToken: cancellationToken.token,
 });
 
-export const callRequest = (url, method, data) => instance({ method, url, data });
+export const callRequest = (requestConfig) => instance(requestConfig);
 export const dispose = () => cancellationToken.cancel();
 export const isCancelled = (value) => axios.isCancel(value);
 
@@ -19,44 +19,44 @@ export const POST_POST = 'POST_POST';
 export const POST_COMMENT = 'POST_COMMENT';
 export const POST_RESPONSE = 'POST_RESPONSE';
 
-export const getRequestConfig = (request, params) => {
-  const { userID, postID, commentID } = params;
-  let URL, method;
+export const getRequestConfig = (request, pathParams, queryParams, bodyParams) => {
+  const { userID, postID, commentID } = pathParams;
+  let url, method;
   switch (request) {
     case GET_USER:
-      URL = `api/users/${userID}`;
+      url = `api/users/${userID}`;
       method = 'get';
       break;
     case GET_POSTS:
-      URL = 'api/posts';
+      url = 'api/posts';
       method = 'get';
       break;
     case GET_POST:
-      URL = `api/posts/${postID}`;
+      url = `api/posts/${postID}`;
       method = 'get';
       break;
     case GET_COMMENTS:
-      URL = `api/posts/${postID}/comments`;
+      url = `api/posts/${postID}/comments`;
       method = 'get';
       break;
     case POST_USER:
-      URL = `api/users`;
+      url = `api/users`;
       method = 'post';
       break;
     case POST_POST:
-      URL = `api/posts`;
+      url = `api/posts`;
       method = 'post';
       break;
     case POST_COMMENT:
-      URL = `api/posts/${postID}/comments`;
+      url = `api/posts/${postID}/comments`;
       method = 'post';
       break;
     case POST_RESPONSE:
-      URL = `api/posts/${postID}/comments/${commentID}`;
+      url = `api/posts/${postID}/comments/${commentID}`;
       method = 'post';
       break;
     default:
       break;
   }
-  return { URL, method }
+  return { url, method, params: queryParams, data: bodyParams }
 }
