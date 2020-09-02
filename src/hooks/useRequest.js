@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
-import { callRequest, getRequestConfig, dispose, isCancelled } from '../apis/backend';
+import { getRequestConfig, callRequest, dispose, isCancelled } from '../apis/backend';
 
-export const useRequest = (request, params = null, data = null) => {
+export const useRequest = (request, pathParams = null, queryParams = null, bodyParams = null) => {
   const [resource, setResource] = useState([]);
 
-  const { URL, method } = getRequestConfig(request, params);
+  const requestConfig = getRequestConfig(request, pathParams, queryParams, bodyParams);
 
   useEffect(() => {
-    callRequest(URL, method, data)
+    callRequest(requestConfig)
       .then((result) => setResource(result.data || []))
       .catch((err) => console.log(isCancelled(err)));
 
     return () => dispose();
-  }, [URL, method, data]);
+  }, [requestConfig]);
 
   return resource
 };
