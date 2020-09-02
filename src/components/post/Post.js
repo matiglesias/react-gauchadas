@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment'
-import { useRequest } from '../hooks/useRequest';
-import { GET_POST } from '../apis/backend';
+import { useRequest } from '../../hooks/useRequest';
+import { GET_POST } from '../../apis/backend';
 
 const Post = ({ postID }) => {
   const post = useRequest(GET_POST, { postID });

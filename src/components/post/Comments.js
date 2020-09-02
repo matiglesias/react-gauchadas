@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { useRequest } from '../hooks/useRequest';
-import { GET_COMMENTS } from '../apis/backend';
+import { useRequest } from '../../hooks/useRequest';
+import { GET_COMMENTS } from '../../apis/backend';
 
 const Comments = ({ postID }) => {
   const comments = useRequest(GET_COMMENTS, { postID });
