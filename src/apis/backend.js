@@ -1,25 +1,39 @@
 import axios from 'axios';
 
-const cancellationToken = axios.CancelToken.source();
-const instance = axios.create({
+const call = axios.create({
   baseURL: process.env.REACT_APP_HOST,
-  cancelToken: cancellationToken.token,
 });
 
-export const callRequest = (requestConfig) => instance(requestConfig);
-export const dispose = () => cancellationToken.cancel();
-export const isCancelled = (value) => axios.isCancel(value);
+export class Backend {
+
+  constructor() {
+    this.cancellationToken = axios.CancelToken.source();
+  }
+
+  callRequest(url, method, params, data) {
+    return call({ url, method, params, data, cancelToken: this.cancellationToken.token });
+  }
+
+  dispose() {
+    this.cancellationToken.cancel();
+  }
+
+  isCancelled(value) {
+    return axios.isCancel(value);
+  }
+}
 
 export const GET_USER = 'GET_USER';
 export const GET_POSTS = 'GET_POSTS';
 export const GET_POST = 'GET_POST';
 export const GET_COMMENTS = 'GET_COMMENTS';
+export const GET_RESPONSES = 'GET_RESPONSES';
 export const POST_USER = 'POST_USER';
 export const POST_POST = 'POST_POST';
 export const POST_COMMENT = 'POST_COMMENT';
 export const POST_RESPONSE = 'POST_RESPONSE';
 
-export const getRequestConfig = (request, pathParams, queryParams, bodyParams) => {
+export const getRequestConfig = (request, pathParams = null, queryParams = null, bodyParams = null) => {
   const { userID, postID, commentID } = pathParams;
   let url, method;
   switch (request) {
@@ -37,6 +51,10 @@ export const getRequestConfig = (request, pathParams, queryParams, bodyParams) =
       break;
     case GET_COMMENTS:
       url = `api/posts/${postID}/comments`;
+      method = 'get';
+      break;
+    case GET_RESPONSES:
+      url = `api/posts/${postID}/comments/${commentID}`;
       method = 'get';
       break;
     case POST_USER:
@@ -58,5 +76,7 @@ export const getRequestConfig = (request, pathParams, queryParams, bodyParams) =
     default:
       break;
   }
-  return { url, method, params: queryParams, data: bodyParams }
+  const params = queryParams;
+  const data = bodyParams;
+  return [url, method, params, data];
 }
