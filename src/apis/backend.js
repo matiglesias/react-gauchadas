@@ -66,12 +66,24 @@ export const getRequestConfig = (request, pathParams = null, queryParams = null,
       method = 'post';
       break;
     case POST_COMMENT:
-      url = `api/posts/${postID}/comments`;
-      method = 'post';
+      if (bodyParams && postID) {
+        url = `api/posts/${postID}/comments`;
+        method = 'post';
+        params = queryParams;
+        data = JSON.stringify(bodyParams);
+        break;
+      }
+      err = "Some request param missing."
       break;
     case POST_RESPONSE:
-      url = `api/posts/${postID}/comments/${commentID}`;
-      method = 'post';
+      if (bodyParams && postID && commentID) {
+        url = `api/posts/${postID}/comments/${commentID}`;
+        method = 'post';
+        params = queryParams;
+        data = JSON.stringify(bodyParams);
+        break;
+      }
+      err = "Some request param missing."
       break;
     default:
       err = "Invalid request."
