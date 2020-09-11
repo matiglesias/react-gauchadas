@@ -35,7 +35,7 @@ export const POST_RESPONSE = 'POST_RESPONSE';
 
 export const getRequestConfig = (request, pathParams = null, queryParams = null, bodyParams = null) => {
   const { userID, postID, commentID } = pathParams;
-  let url, method;
+  let url, method, params, data, err;
   switch (request) {
     case GET_USER:
       url = `api/users/${userID}`;
@@ -74,9 +74,8 @@ export const getRequestConfig = (request, pathParams = null, queryParams = null,
       method = 'post';
       break;
     default:
+      err = "Invalid request."
       break;
   }
-  const params = queryParams;
-  const data = bodyParams;
-  return [url, method, params, data];
+  return [url, method, params, data, err];
 }
