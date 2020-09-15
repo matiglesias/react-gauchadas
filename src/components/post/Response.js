@@ -1,7 +1,11 @@
-import React from 'react';
-import moment from 'moment'
+import React, { useState, memo } from 'react';
+import moment from 'moment';
+import CommentForm from './CommentForm';
 
-const Response = ({ response }) => {
+
+const Response = memo(({ response, addResponse }) => {
+  const [showReplyForm, setShowReplyForm] = useState(false);
+
   return (
     <div className="comments">
       <div className="comment">
@@ -16,10 +20,14 @@ const Response = ({ response }) => {
           <div className="text">
             {response.content}
           </div>
+          <div className="actions">
+            <a href="/" onClick={(e) => { e.preventDefault(); setShowReplyForm(!showReplyForm) }} className="reply">Reply</a>
+            {showReplyForm && <CommentForm postID={response.postID} commentID={response.commentID} addComment={addResponse} />}
+          </div>
         </div>
       </div>
     </div>
   )
-}
+});
 
 export default Response;

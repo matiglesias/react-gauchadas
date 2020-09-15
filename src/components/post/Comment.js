@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo, useEffect } from 'react';
 import moment from 'moment';
 import Responses from './Responses';
+import Response from './Response';
+import CommentForm from './CommentForm';
 
-const Comment = ({ comment }) => {
+const Comment = memo(({ comment }) => {
+  const [showReplyForm, setShowReplyForm] = useState(false);
   const [showResponses, setShowResponses] = useState(false);
   const [responsesLoaded, setResponsesLoaded] = useState(false);
+  const [addedResponses, setAddedResponses] = useState([]);
 
-  const changeShowing = () => {
-    if (!responsesLoaded) setResponsesLoaded(true);
+  const onShowResponses = (e) => {
+    e.preventDefault();
+    if (showResponses) (addedResponses.length && setResponsesLoaded(false))
+    else setResponsesLoaded(true);
+
+    addedResponses.length && setAddedResponses([]);
     setShowResponses(!showResponses);
   };
+
+  const addResponse = useCallback(response => {
+    setAddedResponses(addedResponses => [response, ...addedResponses]);
+  }, []);
+
+  useEffect(() => {
+    addedResponses.length && !showResponses && setResponsesLoaded(showResponses);
+  }, [addedResponses, showResponses]);
 
   return (
     <div id={`comment-${comment._id}`} className="comment">
@@ -25,12 +41,15 @@ const Comment = ({ comment }) => {
           {comment.content}
         </div>
         <div className="actions">
-          <a href="#showReplyForm" className="reply">Reply</a>
-          <a href="#showResponses" onClick={changeShowing}> {showResponses ? "Hide responses" : "Show responses"}</a>
-          {responsesLoaded && <Responses show={showResponses} postID={comment.postID} commentID={comment._id} />}
+          <a href="/" onClick={(e) => { e.preventDefault(); setShowReplyForm(!showReplyForm) }} className="reply">Reply</a>
+          <a href="/" onClick={onShowResponses}> {showResponses ? "Hide responses" : "Show responses"}</a>
+          {showReplyForm && <CommentForm postID={comment.postID} commentID={comment._id} addComment={addResponse} />}
+          {addedResponses.map(r => <Response key={r._id} response={r} addResponse={addResponse} />)}
+          {responsesLoaded && <Responses show={showResponses} postID={comment.postID} commentID={comment._id} addResponse={addResponse} />}
         </div>
       </div>
-    </div >
+    </div>
   );
-};
+});
+
 export default Comment;
