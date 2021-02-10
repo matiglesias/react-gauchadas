@@ -4,7 +4,7 @@ import Responses from './Responses';
 import Response from './Response';
 import CommentForm from './CommentForm';
 
-const Comment = memo(({ comment }) => {
+const Comment = memo(({ comment, canRespond }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [showResponses, setShowResponses] = useState(false);
   const [responsesLoaded, setResponsesLoaded] = useState(false);
@@ -41,11 +41,11 @@ const Comment = memo(({ comment }) => {
           {comment.content}
         </div>
         <div className="actions">
-          <a href="/" onClick={(e) => { e.preventDefault(); setShowReplyForm(!showReplyForm) }} className="reply">Reply</a>
+          {canRespond && <a href="/" onClick={(e) => { e.preventDefault(); setShowReplyForm(!showReplyForm) }} className="reply">Reply</a>}
           <a href="/" onClick={onShowResponses}> {showResponses ? "Hide responses" : "Show responses"}</a>
-          {showReplyForm && <CommentForm postID={comment.postID} commentID={comment._id} addComment={addResponse} />}
-          {addedResponses.map(r => <Response key={r._id} response={r} addResponse={addResponse} />)}
-          {responsesLoaded && <Responses show={showResponses} postID={comment.postID} commentID={comment._id} addResponse={addResponse} />}
+          {canRespond && showReplyForm && <CommentForm postID={comment.postID} commentID={comment._id} addComment={addResponse} />}
+          {addedResponses.map(r => <Response key={r._id} response={r} addResponse={addResponse} canRespond={canRespond} />)}
+          {responsesLoaded && <Responses show={showResponses} postID={comment.postID} commentID={comment._id} addResponse={addResponse} canRespond={canRespond} />}
         </div>
       </div>
     </div>

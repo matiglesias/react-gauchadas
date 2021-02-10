@@ -3,7 +3,7 @@ import moment from 'moment';
 import CommentForm from './CommentForm';
 
 
-const Response = memo(({ response, addResponse }) => {
+const Response = memo(({ response, addResponse, canRespond }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
 
   return (
@@ -21,8 +21,8 @@ const Response = memo(({ response, addResponse }) => {
             {response.content}
           </div>
           <div className="actions">
-            <a href="/" onClick={(e) => { e.preventDefault(); setShowReplyForm(!showReplyForm) }} className="reply">Reply</a>
-            {showReplyForm && <CommentForm postID={response.postID} commentID={response.commentID} addComment={addResponse} />}
+            {canRespond && <a href="/" onClick={(e) => { e.preventDefault(); setShowReplyForm(!showReplyForm) }} className="reply">Reply</a>}
+            {canRespond && showReplyForm && <CommentForm postID={response.postID} commentID={response.commentID} addComment={addResponse} />}
           </div>
         </div>
       </div>
