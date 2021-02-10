@@ -13,7 +13,7 @@ const Post = ({ postID }) => {
   }
 
   return (
-    <div className="ui main text container" style={{ "marginTop": '7em' }}>
+    <>
       <h1 className="ui dividing huge header">
         <div className="ui sub header" style={{ "textAlign": 'right' }}>{moment(post.createdAt).calendar()}</div>
         {post.title}
@@ -22,7 +22,7 @@ const Post = ({ postID }) => {
       <div className="row" id="post-content">
         {paragraphs()}
       </div>
-    </div>
+    </>
   );
 };
 

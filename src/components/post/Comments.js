@@ -15,7 +15,7 @@ const Comments = memo(({ postID }) => {
   const commentMapping = (c) => <Comment key={c._id} comment={c} />
 
   return (
-    <div className="ui comments text container">
+    <div className="ui comments" style={{ maxWidth: "none" }}>
       <h3 className="ui dividing header">Comments</h3>
       <CommentForm postID={postID} addComment={addComment} />
       {addedComments.length > 0 && addedComments.map(commentMapping)}
