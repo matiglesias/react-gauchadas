@@ -32,6 +32,8 @@ export const POST_USER = 'POST_USER';
 export const POST_POST = 'POST_POST';
 export const POST_COMMENT = 'POST_COMMENT';
 export const POST_RESPONSE = 'POST_RESPONSE';
+export const DELETE_POST = 'DELETE_POST';
+export const RESTORE_POST = 'RESTORE_POST';
 
 export const getRequestConfig = (request, pathParams = null, queryParams = null, bodyParams = null) => {
   const { userID, postID, commentID } = pathParams;
@@ -48,6 +50,20 @@ export const getRequestConfig = (request, pathParams = null, queryParams = null,
     case GET_POST:
       url = `api/posts/${postID}`;
       method = 'get';
+      break;
+    case DELETE_POST:
+      if (postID) {
+        url = `api/posts/${postID}`;
+        method = 'delete';
+        break;
+      }
+      break;
+    case RESTORE_POST:
+      if (postID) {
+        url = `api/posts/${postID}`;
+        method = 'put';
+        break;
+      }
       break;
     case GET_COMMENTS:
       url = `api/posts/${postID}/comments`;
